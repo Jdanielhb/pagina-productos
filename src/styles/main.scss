@@ -1,0 +1,392 @@
+@import 'variables';
+@import 'mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: $dark-color;
+  background-color: #f5f7fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Navbar mejorado
+.navbar {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: $shadow-md;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  &-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  a {
+    color: $light-color;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: $border-radius-md;
+    transition: $transition-fast;
+    position: relative;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &.active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: $accent-color;
+      transition: $transition-fast;
+    }
+    
+    &:hover::after {
+      width: 100%;
+      left: 0;
+    }
+  }
+
+  .cart-count {
+    background-color: $accent-color;
+    color: $dark-color;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    margin-left: 0.3rem;
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+// Productos
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.product-card {
+  background: white;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: $transition-medium;
+  @include hover-effect;
+  
+  &-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    padding: 1rem;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  &-content {
+    padding: 1.5rem;
+    
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      @include truncate-text(2);
+      color: $dark-color;
+    }
+    
+    .price {
+      color: $primary-color;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .view-detail {
+      display: inline-block;
+      background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: $border-radius-md;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+      @include button-effect;
+    }
+  }
+}
+
+// Detalle de producto
+.product-detail {
+  display: flex;
+  gap: 3rem;
+  margin-top: 2rem;
+  background: white;
+  border-radius: $border-radius-lg;
+  padding: 2rem;
+  box-shadow: $shadow-sm;
+  animation: fadeIn 0.5s ease;
+  
+  &-image {
+    flex: 1;
+    max-width: 500px;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: $border-radius-md;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: $shadow-sm;
+  }
+  
+  &-info {
+    flex: 1;
+    
+    h2 {
+      color: $dark-color;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    
+    .category {
+      display: inline-block;
+      background-color: $accent-color;
+      color: $dark-color;
+      padding: 0.3rem 0.8rem;
+      border-radius: $border-radius-sm;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .description {
+      color: lighten($dark-color, 20%);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+    
+    .price {
+      color: $primary-color;
+      font-weight: bold;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+    
+    .add-to-cart {
+      background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: $border-radius-md;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      @include button-effect;
+      width: 100%;
+      max-width: 300px;
+      
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Carrito
+.cart {
+  background: white;
+  border-radius: $border-radius-lg;
+  padding: 2rem;
+  box-shadow: $shadow-sm;
+  animation: fadeIn 0.5s ease;
+  
+  h2 {
+    color: $dark-color;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.5rem;
+  }
+  
+  &-empty {
+    text-align: center;
+    padding: 2rem;
+    color: lighten($dark-color, 40%);
+  }
+  
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    
+    &-image {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      border-radius: $border-radius-sm;
+      background: #fff;
+      padding: 0.5rem;
+      box-shadow: $shadow-sm;
+    }
+    
+    &-info {
+      flex: 1;
+      
+      h4 {
+        color: $dark-color;
+        margin-bottom: 0.3rem;
+      }
+      
+      .price {
+        color: $primary-color;
+        font-weight: bold;
+      }
+      
+      .quantity {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        
+        button {
+          background: $light-color;
+          border: 1px solid #ddd;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: $transition-fast;
+          
+          &:hover {
+            background: #eee;
+          }
+        }
+      }
+    }
+    
+    .remove-item {
+      background: $danger-color;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius-sm;
+      cursor: pointer;
+      @include button-effect;
+    }
+  }
+  
+  &-total {
+    text-align: right;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    
+    h3 {
+      font-size: 1.5rem;
+      color: $dark-color;
+      
+      span {
+        color: $primary-color;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// Mensajes de error
+.error-message {
+  background: rgba($danger-color, 0.1);
+  color: $danger-color;
+  padding: 1rem;
+  border-radius: $border-radius-md;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-left: 4px solid $danger-color;
+  
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// Animaciones
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+// Loading
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  
+  &-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba($primary-color, 0.3);
+    border-radius: 50%;
+    border-top-color: $primary-color;
+    animation: spin 1s ease-in-out infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.danger-button {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: #cc0000;
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
